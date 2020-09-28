@@ -56,6 +56,7 @@ var _tools = {
 	"LineTool" : "res://src/Tools/LineTool.tscn",
 	"RectangleTool" : "res://src/Tools/RectangleTool.tscn",
 	"EllipseTool" : "res://src/Tools/EllipseTool.tscn",
+	"Text" : "res://src/Tools/Text.tscn",
 }
 var _slots = {}
 var _panels = {}
