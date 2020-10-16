@@ -146,8 +146,13 @@ __meta__ = {
 margin_left = 7.0
 margin_top = 7.0
 <<<<<<< HEAD
+<<<<<<< HEAD
 margin_right = 31.0
 margin_bottom = 479.0
+=======
+margin_right = 39.0
+margin_bottom = 291.0
+>>>>>>> baae34f4 (Change font & load font from file explorer)
 size_flags_horizontal = 4
 size_flags_vertical = 0
 =======
