@@ -492,7 +492,7 @@ func save_pxo_file(
 	zip_packer.close_file()
 
 	zip_packer.start_file("mimetype")
-	zip_packer.write_file("image/pxo".to_utf8_buffer())
+	zip_packer.write_file("application/x-pixelorama".to_utf8_buffer())
 	zip_packer.close_file()
 
 	var current_frame := project.frames[project.current_frame]
