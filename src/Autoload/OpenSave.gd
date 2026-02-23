@@ -459,7 +459,7 @@ func open_v0_pxo_file(path: String, empty_project: bool) -> Project:
 func save_pxo_file(
 	path: String, autosave: bool, include_blended := false, project := Global.current_project
 ) -> bool:
-	if not autosave:
+	if not autosave and not OS.get_name() == "Android":
 		project.name = path.get_file().trim_suffix(".pxo")
 	var serialized_data := project.serialize()
 	if not serialized_data:
@@ -472,8 +472,10 @@ func save_pxo_file(
 
 	# Check if a file with the same name exists. If it does, rename the new file temporarily.
 	# Needed in case of a crash, so that the old file won't be replaced with an empty one.
+	# NOTE: This cannot work in the case of Android, because SAF only allows a file
+	# to be saved if it has the exact same path as the one the user defined.
 	var temp_path := path
-	if FileAccess.file_exists(path):
+	if FileAccess.file_exists(path) and not OS.get_name() == "Android":
 		temp_path = path + "1"
 
 	var zip_packer := ZIPPacker.new()
