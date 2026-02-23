@@ -15,6 +15,7 @@ func _ready() -> void:
 	for extension_name: String in extensions.extensions:
 		var extension: Extensions.Extension = extensions.extensions[extension_name]
 		_extension_loaded(extension, extension_name)
+	add_extension_file_dialog.use_native_dialog = Global.use_native_file_dialogs
 	extensions.extension_loaded.connect(_extension_loaded)
 	extensions.extension_uninstalled.connect(_extension_uninstalled)
 	delete_confirmation.add_button("Move to Trash", false, Extensions.BIN_ACTION)
