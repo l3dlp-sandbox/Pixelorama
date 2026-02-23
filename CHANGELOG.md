@@ -6,16 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v1.1.9] - Unreleased
 This update has been brought to you by the contributions of:
-Fayez Akhtar ([@Variable-ind](https://github.com/Variable-ind)), [@Bartkk0](https://github.com/Bartkk0)
+Fayez Akhtar ([@Variable-ind](https://github.com/Variable-ind)), [@Bartkk0](https://github.com/Bartkk0), Akane Angèle ([@AkaneAngele](https://github.com/AkaneAngele))
 
-Built using Godot 4.6
+Built using Godot 4.6.1
 
 ### Added
+- Implemented the ability to export tilesets as images or Godot TileSet resources from the Project Properties window.
+- A search bar has been added in the Preferences.
 - Undo/redo now works for layer properties. [#1413](https://github.com/Orama-Interactive/Pixelorama/pull/#1413)
+- Added a "Collapse main menu" preference that unites the menu bar into a single "Main menu" button. This preference is turned on by default on mobiles, but turned off by default on other platforms.
+- On mobile, quick access buttons for save, undo, redo, copy, cut, paste, delete as well as Shift, Control and Alt have been added on the top bar next to the menu.
+- A max velocity setting for mice is now exposed in the dynamics panel. [#1430](https://github.com/Orama-Interactive/Pixelorama/pull/#1430)
+- It is now possible to set a shortcut for the Grayscale View menu option. [#1443](https://github.com/Orama-Interactive/Pixelorama/pull/#1443)
+
+### Changed
+- The export dialog's file browser has changed. Now, users select the entire path of the exported file from there, instead of just the folder, and the file name text field has been removed.
+- The brush size found in the dynamics panel is now relative to the brush size in the tool properties. [#1430](https://github.com/Orama-Interactive/Pixelorama/pull/#1430)
+- Marking folders as favorites in the file manager windows is now saved between sessions. [#1434](https://github.com/Orama-Interactive/Pixelorama/pull/#1434)
+- The Android version no longer requires storage permissions, as now we are using the Storage Access Framework — thanks to the update to Godot 4.6.
 
 ### Fixed
+- Fixed major slowdown when pasting an image into a tilemap cel, or when deleting the entire cel.
 - Brush size no longer changes in odd increments if share tool options is enabled.
+- On mobile, the UI is no longer getting cut on fullscreen by camera notches and curved sides.
 - Fixed right tool not selected by stylus when invert button is pressed. [#1426](https://github.com/Orama-Interactive/Pixelorama/pull/#1426)
+- Fixed various visual bugs during undo/redo. [#1432](https://github.com/Orama-Interactive/Pixelorama/pull/#1432)
+- In dynamics, fixed tools having a non-zero velocity even when it just started drawing. This previously caused unpredictability when modifying alpha through velocity. [#1430](https://github.com/Orama-Interactive/Pixelorama/pull/#1430)
 - Fixed animation tags not being visible if the last project gets loaded on startup.
 
 ## [v1.1.8] - 2025-12-31
