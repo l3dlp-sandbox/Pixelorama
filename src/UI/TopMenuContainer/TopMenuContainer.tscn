@@ -117,26 +117,6 @@ size_flags_horizontal = 3
 alignment = 1
 script = ExtResource("3_jyry5")
 
-[node name="Save" type="Button" parent="MarginContainer/HBoxContainer/QuickAccessButtons" unique_id=17304904 groups=["UIButtons"]]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_vertical = 4
-tooltip_text = "Save"
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/QuickAccessButtons/Save" unique_id=2058503723]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource("3_p1o86")
-stretch_mode = 3
-
 [node name="Undo" type="Button" parent="MarginContainer/HBoxContainer/QuickAccessButtons" unique_id=656560383 groups=["UIButtons"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
@@ -175,6 +155,26 @@ grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("5_vglpq")
+stretch_mode = 3
+
+[node name="Save" type="Button" parent="MarginContainer/HBoxContainer/QuickAccessButtons" unique_id=17304904 groups=["UIButtons"]]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Save"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/QuickAccessButtons/Save" unique_id=2058503723]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("3_p1o86")
 stretch_mode = 3
 
 [node name="Copy" type="Button" parent="MarginContainer/HBoxContainer/QuickAccessButtons" unique_id=1290832250 groups=["UIButtons"]]
@@ -356,9 +356,9 @@ auto_translate_mode = 1
 title = "Delete Layout"
 dialog_text = "Are you sure you want to delete this layout?"
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/QuickAccessButtons/Save" to="MarginContainer/HBoxContainer/QuickAccessButtons" method="_on_save_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/QuickAccessButtons/Undo" to="MarginContainer/HBoxContainer/QuickAccessButtons" method="_on_undo_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/QuickAccessButtons/Redo" to="MarginContainer/HBoxContainer/QuickAccessButtons" method="_on_redo_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/QuickAccessButtons/Save" to="MarginContainer/HBoxContainer/QuickAccessButtons" method="_on_save_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/QuickAccessButtons/Copy" to="MarginContainer/HBoxContainer/QuickAccessButtons" method="_on_copy_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/QuickAccessButtons/Cut" to="MarginContainer/HBoxContainer/QuickAccessButtons" method="_on_cut_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/QuickAccessButtons/Paste" to="MarginContainer/HBoxContainer/QuickAccessButtons" method="_on_paste_pressed"]
