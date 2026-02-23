@@ -1441,7 +1441,7 @@ mouse_default_cursor_shape = 2
 disabled = true
 text = "Uninstall"
 
-[node name="OpenFolderButton" type="Button" parent="HSplitContainer/VBoxContainer/ScrollContainer/RightSide/Extensions/HBoxContainer" unique_id=1324879976]
+[node name="OpenFolderButton" type="Button" parent="HSplitContainer/VBoxContainer/ScrollContainer/RightSide/Extensions/HBoxContainer" unique_id=1324879976 groups=["DesktopOnly"]]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Open Folder"

@@ -21,7 +21,6 @@ func _ready() -> void:
 	delete_confirmation.add_button("Move to Trash", false, Extensions.BIN_ACTION)
 	if OS.get_name() == "Web":
 		$HBoxContainer/AddExtensionButton.disabled = true
-		$HBoxContainer/OpenFolderButton.visible = false
 	else:
 		# TODO: Remove the loop when https://github.com/godotengine/godot/issues/92848 gets fixed.
 		for dialog_child in add_extension_file_dialog.find_children("", "Window", true, false):
