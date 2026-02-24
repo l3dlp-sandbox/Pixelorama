@@ -4,7 +4,7 @@ enum ExportTab { IMAGE, SPRITESHEET }
 enum Orientation { COLUMNS, ROWS, TAGS_BY_ROW, TAGS_BY_COLUMN }
 enum AnimationDirection { FORWARD, BACKWARDS, PING_PONG }
 ## See file_format_string, file_format_description, and ExportDialog.gd
-enum FileFormat { PNG, WEBP, JPEG, GIF, APNG, MP4, AVI, OGV, MKV, WEBM }
+enum FileFormat { PNG, WEBP, JPEG, EXR, GIF, APNG, MP4, AVI, OGV, MKV, WEBM }
 enum { VISIBLE_LAYERS, SELECTED_LAYERS }
 enum ExportFrames { ALL_FRAMES, SELECTED_FRAMES }
 
@@ -30,6 +30,7 @@ var file_format_dictionary: Dictionary[FileFormat, Array] = {
 	FileFormat.PNG: [".png", "PNG Image"],
 	FileFormat.WEBP: [".webp", "WebP Image"],
 	FileFormat.JPEG: [".jpg", "JPG Image"],
+	FileFormat.EXR: [".exr", "EXR Image"],
 	FileFormat.GIF: [".gif", "GIF Image"],
 	FileFormat.APNG: [".apng", "APNG Image"],
 	FileFormat.MP4: [".mp4", "MPEG-4 Video"],
@@ -466,13 +467,7 @@ func export_processed_images(
 	else:
 		for i in range(processed_images.size()):
 			if OS.has_feature("web"):
-				if project.file_format == FileFormat.PNG:
-					JavaScriptBridge.download_buffer(
-						processed_images[i].image.save_png_to_buffer(),
-						export_paths[i].get_file(),
-						"image/png"
-					)
-				elif project.file_format == FileFormat.WEBP:
+				if project.file_format == FileFormat.WEBP:
 					JavaScriptBridge.download_buffer(
 						processed_images[i].image.save_webp_to_buffer(),
 						export_paths[i].get_file(),
@@ -484,6 +479,12 @@ func export_processed_images(
 						export_paths[i].get_file(),
 						"image/jpeg"
 					)
+				else:
+					JavaScriptBridge.download_buffer(
+						processed_images[i].image.save_png_to_buffer(),
+						export_paths[i].get_file(),
+						"image/png"
+					)
 
 			else:
 				var err: Error
@@ -493,6 +494,8 @@ func export_processed_images(
 					err = processed_images[i].image.save_webp(export_paths[i])
 				elif project.file_format == FileFormat.JPEG:
 					err = processed_images[i].image.save_jpg(export_paths[i], save_quality)
+				elif project.file_format == FileFormat.EXR:
+					err = processed_images[i].image.save_exr(export_paths[i])
 				if err != OK:
 					Global.popup_error(
 						tr("File failed to save. Error code %s (%s)") % [err, error_string(err)]

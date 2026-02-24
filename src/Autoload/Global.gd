@@ -123,7 +123,7 @@ const LANGUAGES_DICT := {
 	"uk_UA": ["Українська", "Ukrainian"],
 }
 const SUPPORTED_IMAGE_TYPES: PackedStringArray = [
-	"png", "bmp", "hdr", "jpg", "jpeg", "svg", "tga", "webp"
+	"png", "bmp", "hdr", "jpg", "jpeg", "svg", "tga", "webp", "exr"
 ]
 ## The file path used for the [member config_cache] file.
 const CONFIG_PATH := "user://config.ini"
