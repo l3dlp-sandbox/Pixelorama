@@ -39,8 +39,10 @@ var has_changed := false:
 		if value:
 			Global.project_data_changed.emit(self)
 			Global.tabs.set_tab_title(Global.tabs.current_tab, name + "(*)")
+			JavaScriptBridge.eval("setUnsavedChanges(true);")
 		else:
 			Global.tabs.set_tab_title(Global.tabs.current_tab, name)
+			JavaScriptBridge.eval("setUnsavedChanges(false);")
 # frames and layers Arrays should generally only be modified directly when
 # opening/creating a project. When modifying the current project, use
 # the add/remove/move/swap_frames/layers methods
