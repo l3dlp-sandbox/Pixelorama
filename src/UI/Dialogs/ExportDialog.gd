@@ -41,7 +41,7 @@ var _preview_images: Array[Export.ProcessedImage]
 @onready var dimension_label: Label = $"%DimensionLabel"
 
 @onready var path_line_edit: LineEdit = $"%PathLineEdit"
-
+@onready var file_format_options: OptionButton = $"%FileFormat"
 @onready var options_interpolation: OptionButton = $"%Interpolation"
 
 @onready var file_exists_alert_popup: AcceptDialog = $FileExistsAlert
@@ -61,6 +61,8 @@ func _ready() -> void:
 		file_exists_alert_popup.add_button("Cancel Export", true, "cancel")
 	else:
 		file_exists_alert_popup.add_button("Cancel Export", false, "cancel")
+		if OS.get_name() == "Web" or OS.get_name() == "Android":
+			file_format_options.show()
 
 	# TODO: Remove the loop when https://github.com/godotengine/godot/issues/92848 gets fixed.
 	for dialog_child in path_dialog_popup.find_children("", "Window", true, false):
@@ -195,20 +197,32 @@ func set_file_format_selector() -> void:
 ## Note that if the current format is in the list, it stays for consistency.
 func _set_file_format_selector_suitable_file_formats(formats: Array[Export.FileFormat]) -> void:
 	var project := Global.current_project
+	file_format_options.clear()
 	path_dialog_popup.clear_filters()
 	var ffmpeg_installed := Export.is_ffmpeg_installed()
 	var needs_update := true
 	for i in formats:
+		if i == Export.FileFormat.EXR:
+			if OS.get_name() == "Android" or OS.get_name() == "Web":
+				continue
 		if project.file_format == i:
 			needs_update = false
 		if not ffmpeg_installed:
 			if i in Export.ffmpeg_formats:
 				continue
-		path_dialog_popup.add_filter(
-			"*" + Export.file_format_string(i), Export.file_format_description(i)
-		)
+		var label := Export.file_format_string(i) + "; " + Export.file_format_description(i)
+		file_format_options.add_item(label, i)
+		if OS.get_name() != "Android":
+			path_dialog_popup.add_filter(
+				"*" + Export.file_format_string(i), Export.file_format_description(i)
+			)
 	if needs_update:
 		project.file_format = formats[0]
+	file_format_options.selected = file_format_options.get_item_index(project.file_format)
+	if OS.get_name() == "Android":
+		var file_ext_str := "*" + Export.file_format_string(project.file_format)
+		var file_format_description := Export.file_format_description(project.file_format)
+		path_dialog_popup.add_filter(file_ext_str, file_format_description)
 
 
 func create_frame_tag_list() -> void:
@@ -365,6 +379,13 @@ func _on_interpolation_item_selected(id: Image.Interpolation) -> void:
 
 
 func _on_confirmed() -> void:
+	if OS.get_name() == "Android":
+		path_dialog_popup.popup_centered_clamped()
+		return
+	export()
+
+
+func export() -> void:
 	Global.current_project.export_overwrite = false
 	if await Export.export_processed_images(false, self, Global.current_project):
 		hide()
@@ -398,6 +419,9 @@ func _on_path_dialog_file_selected(path: String) -> void:
 	path_line_edit.text = path
 	_on_path_line_edit_text_changed(path)
 	Export.overwrite_asked = true
+	if OS.get_name() == "Android":
+		export()
+		return
 	# Needed because if native file dialogs are enabled
 	# the export dialog closes when the path dialog closes
 	if not visible:
@@ -409,6 +433,19 @@ func _on_path_dialog_canceled() -> void:
 	# the export dialog closes when the path dialog closes
 	if not visible:
 		show()
+
+
+func _on_file_format_item_selected(index: int) -> void:
+	var id := file_format_options.get_item_id(index) as Export.FileFormat
+	var ext_string := Export.file_format_string(id)
+	var path := path_line_edit.text
+	path = path.replace("." + path.get_extension(), ext_string)
+	path_line_edit.text = path
+	_on_path_line_edit_text_changed(path)
+	if OS.get_name() == "Android":
+		path_dialog_popup.clear_filters()
+		var file_format_description := Export.file_format_description(id)
+		path_dialog_popup.add_filter("*" + ext_string, file_format_description)
 
 
 ## Overwrite existing file

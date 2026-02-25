@@ -230,17 +230,24 @@ custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 text = "Path:"
 
-[node name="PathLineEdit" type="LineEdit" parent="VBoxContainer/VSplitContainer/VBoxContainer/FilePath" unique_id=938649692]
+[node name="PathLineEdit" type="LineEdit" parent="VBoxContainer/VSplitContainer/VBoxContainer/FilePath" unique_id=938649692 groups=["NotAndroid"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="PathButton" type="Button" parent="VBoxContainer/VSplitContainer/VBoxContainer/FilePath" unique_id=1878336224 groups=["NotHTML5"]]
+[node name="PathButton" type="Button" parent="VBoxContainer/VSplitContainer/VBoxContainer/FilePath" unique_id=1878336224 groups=["NotAndroid", "NotHTML5"]]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Browse"
+
+[node name="FileFormat" type="OptionButton" parent="VBoxContainer/VSplitContainer/VBoxContainer/FilePath" unique_id=844726557]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
 
 [node name="HSeparator3" type="HSeparator" parent="VBoxContainer/VSplitContainer/VBoxContainer" unique_id=224516429]
 layout_mode = 2
@@ -376,6 +383,7 @@ size_flags_horizontal = 3
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/VBoxContainer/GridContainer/Quality" to="." method="_on_quality_value_changed"]
 [connection signal="text_changed" from="VBoxContainer/VSplitContainer/VBoxContainer/FilePath/PathLineEdit" to="." method="_on_path_line_edit_text_changed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/VBoxContainer/FilePath/PathButton" to="." method="_on_path_button_pressed"]
+[connection signal="item_selected" from="VBoxContainer/VSplitContainer/VBoxContainer/FilePath/FileFormat" to="." method="_on_file_format_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/VSplitContainer/VBoxContainer/AdvancedOptions/GridContainer/Interpolation" to="." method="_on_interpolation_item_selected"]
 [connection signal="text_changed" from="VBoxContainer/VSplitContainer/VBoxContainer/AdvancedOptions/GridContainer/SeparatorCharacter" to="." method="_on_separator_character_text_changed"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/VBoxContainer/AdvancedOptions/GridContainer/ExportJSON" to="." method="_on_export_json_toggled"]
