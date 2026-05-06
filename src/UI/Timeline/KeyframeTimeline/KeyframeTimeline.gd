@@ -9,14 +9,14 @@ static var selected_keyframes: Array[int]
 var current_layer: BaseLayer:
 	set(value):
 		if is_instance_valid(current_layer):
-			if current_layer.effects_added_removed.is_connected(recreate_timeline):
-				current_layer.effects_added_removed.disconnect(recreate_timeline)
+			if current_layer.effects_added_removed.is_connected(_on_effects_added_removed):
+				current_layer.effects_added_removed.disconnect(_on_effects_added_removed)
 		current_layer = value
 		recreate_timeline()
-		current_layer.effects_added_removed.connect(recreate_timeline)
+		current_layer.effects_added_removed.connect(_on_effects_added_removed)
+		await get_tree().process_frame
 		await get_tree().process_frame
 		keyframe_timeline_cursor.update_position()
-		await get_tree().process_frame
 		var v_scroll := track_scroll_container.scroll_vertical
 		track_scroll_container.ensure_control_visible(keyframe_timeline_cursor)
 		track_scroll_container.scroll_vertical = v_scroll
@@ -87,6 +87,12 @@ func _on_cel_switched() -> void:
 	unselect_keyframe()
 
 
+func _on_effects_added_removed() -> void:
+	# Await is needed so that the params get added to the layer effect.
+	await get_tree().process_frame
+	recreate_timeline()
+
+
 func _on_project_about_to_switch() -> void:
 	var project := Global.current_project
 	project.frames_updated.disconnect(_add_ui_frames)
@@ -115,8 +121,6 @@ func recreate_timeline() -> void:
 	for child in track_container.get_children():
 		child.queue_free()
 	#region Add tracks for animatable objects.
-	# Await is needed so that the params get added to the layer effect.
-	await get_tree().process_frame
 	for effect in current_layer.effects:
 		var effect_item := add_section(effect.name, KeyframeAnimationTrack.TrackTypes.LAYER_EFFECT)
 		for param_name in effect.params:
@@ -130,7 +134,6 @@ func recreate_timeline() -> void:
 			)
 	#endregion
 	select_keyframes()
-	await get_tree().process_frame
 	track_scroll_container.scroll_horizontal = h_scroll
 	track_scroll_container.scroll_vertical = v_scroll
 	# Hide UI which is un-usable
@@ -498,6 +501,7 @@ func _on_track_scroll_container_resized() -> void:
 	var r_marg := properties_container.size.x if properties_container.is_visible_in_tree() else 0.0
 	margin_container.add_theme_constant_override(&"margin_left", l_marg + split_separation)
 	margin_container.add_theme_constant_override(&"margin_right", r_marg + split_separation)
+	keyframe_timeline_cursor.update_position()
 
 
 func _on_track_scroll_container_sort_children() -> void:
